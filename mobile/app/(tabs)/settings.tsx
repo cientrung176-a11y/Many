@@ -214,7 +214,7 @@ export default function SettingsScreen() {
           />
         </View>
 
-        <Text style={styles.version}>SpendWise v1.0.0</Text>
+        <Text style={styles.version}>Thị Niễu v1.0.0</Text>
       </ScrollView>
     </SafeAreaView>
   );

@@ -83,8 +83,8 @@ export default function LoginScreen() {
             <View style={styles.logoBox}>
               <Text style={styles.logoEmoji}>💰</Text>
             </View>
-            <Text style={styles.appName}>SpendWise</Text>
-            <Text style={styles.tagline}>Quản lý chi tiêu thông minh</Text>
+            <Text style={styles.appName}>Thị Niễu</Text>
+            <Text style={styles.tagline}>Quản lý chi tiêu gia đình</Text>
           </View>
 
           <View style={styles.card}>

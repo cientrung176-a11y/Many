@@ -93,7 +93,7 @@ export default function RegisterScreen() {
   return (
     <SafeAreaView style={styles.safe}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="always">
 
           <TouchableOpacity style={styles.backBtn} onPress={() => step === 'household' ? setStep('account') : router.back()}>
             <Ionicons name="arrow-back" size={22} color="#fff" />
@@ -196,9 +196,18 @@ export default function RegisterScreen() {
                   <Text style={styles.helpText}>Bạn sẽ nhận được mã mời để chia sẻ với người thân</Text>
                   <View style={styles.inputGroup}>
                     <Ionicons name="home-outline" size={18} color="#9ca3af" style={styles.icon} />
-                    <TextInput style={styles.input} placeholder="Tên gia đình (vd: Nhà mình)"
-                      placeholderTextColor="#9ca3af" value={householdName} onChangeText={setHouseholdName}
-                      returnKeyType="done" onSubmitEditing={handleRegister} />
+                    <TextInput
+                      style={[styles.input, { flex: 1 }]}
+                      placeholder="Tên gia đình (vd: Nhà mình)"
+                      placeholderTextColor="#9ca3af"
+                      value={householdName}
+                      onChangeText={setHouseholdName}
+                      autoCorrect={false}
+                      autoCapitalize="words"
+                      returnKeyType="done"
+                      onSubmitEditing={handleRegister}
+                      editable
+                    />
                   </View>
                 </>
               ) : (
