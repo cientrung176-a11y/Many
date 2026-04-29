@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import api from '../../lib/api';
 import { useExpenseContext } from '../../lib/ExpenseContext';
+import { saveToWidget, currentMonthName } from '../../modules/widget';
 
 type Expense = {
   id: string; amount: number; note?: string;
@@ -68,7 +69,13 @@ export default function ExpensesScreen() {
       const res = await api.get('/expenses', { params });
       const data: Expense[] = res.data;
       setExpenses(data);
-      setTotal(data.reduce((s, e) => s + e.amount, 0));
+      const monthTotal = data.reduce((s, e) => s + e.amount, 0);
+      setTotal(monthTotal);
+      saveToWidget({
+        totalThisMonth: monthTotal,
+        countThisMonth: data.length,
+        monthName: currentMonthName(),
+      });
     } catch {}
     setLoading(false);
     setRefreshing(false);
