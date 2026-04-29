@@ -1,5 +1,5 @@
-// Production API URL — change this when deploying to cloud
-export const API_BASE_URL = 'http://192.168.1.6:3000';
+// Production API URL
+export const API_BASE_URL = 'https://spendwise-api-7e0n.onrender.com';
 
 export function getImageUrl(p: string | null | undefined): string | null {
   if (!p) return null;
