@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   View, Text, StyleSheet, FlatList, TouchableOpacity,
-  Alert, ActivityIndicator, Modal, TextInput, ScrollView,
+  Alert, ActivityIndicator, Modal, TextInput, ScrollView, Keyboard,
 } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -199,6 +199,8 @@ export default function RecurringScreen() {
                     value={amount}
                     onChangeText={(v) => setAmount(formatAmount(v))}
                     placeholderTextColor="#9ca3af"
+                    returnKeyType="done"
+                    onSubmitEditing={Keyboard.dismiss}
                   />
 
                   <TextInput
@@ -245,6 +247,8 @@ export default function RecurringScreen() {
                         onChangeText={setDayOfMonth}
                         maxLength={2}
                         placeholderTextColor="#9ca3af"
+                        returnKeyType="done"
+                        onSubmitEditing={Keyboard.dismiss}
                       />
                     </>
                   )}

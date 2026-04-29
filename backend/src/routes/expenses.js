@@ -35,9 +35,13 @@ function parseExpense(e) {
 // GET /api/expenses?month=5&year=2025&categoryId=xxx&search=xxx&minAmount=0&maxAmount=999
 router.get('/', async (req, res) => {
   try {
-    const { month, year, categoryId, limit = 100, search, minAmount, maxAmount } = req.query;
+    const { month, year, categoryId, limit = 100, search, minAmount, maxAmount, startDate, endDate } = req.query;
     const where = { ...householdFilter(req) };
-    if (month && year) {
+    if (startDate || endDate) {
+      where.createdAt = {};
+      if (startDate) where.createdAt.gte = new Date(startDate);
+      if (endDate) { const d = new Date(endDate); d.setHours(23, 59, 59, 999); where.createdAt.lte = d; }
+    } else if (month && year) {
       const start = new Date(Number(year), Number(month) - 1, 1);
       const end = new Date(Number(year), Number(month), 0, 23, 59, 59, 999);
       where.createdAt = { gte: start, lte: end };
