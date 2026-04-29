@@ -262,7 +262,7 @@ export default function AddExpenseScreen() {
       </KeyboardAvoidingView>
 
       {/* Category modal */}
-      <Modal visible={showCatModal} animationType="slide" transparent>
+      <Modal visible={showCatModal} animationType="slide" transparent presentationStyle="overFullScreen">
         <View style={styles.overlay}>
           <View style={styles.modalCard}>
             <Text style={styles.modalTitle}>Chọn danh mục</Text>

@@ -154,122 +154,132 @@ export default function RecurringScreen() {
         />
       )}
 
-      {/* Add modal */}
-      <Modal visible={showAdd} animationType="slide" transparent>
+      {/* Add modal — single Modal, category picker is inline */}
+      <Modal visible={showAdd} animationType="slide" transparent onRequestClose={() => { setShowCatModal(false); setShowAdd(false); }}>
         <View style={styles.overlay}>
           <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>Thêm định kỳ</Text>
-            <ScrollView showsVerticalScrollIndicator={false}>
-
-              <TextInput
-                style={styles.input}
-                placeholder="Số tiền"
-                keyboardType="numeric"
-                value={amount}
-                onChangeText={(v) => setAmount(formatAmount(v))}
-                placeholderTextColor="#9ca3af"
-              />
-
-              <TextInput
-                style={styles.input}
-                placeholder="Ghi chú (tùy chọn)"
-                value={note}
-                onChangeText={setNote}
-                placeholderTextColor="#9ca3af"
-              />
-
-              {/* Category */}
-              <TouchableOpacity style={styles.catPicker} onPress={() => setShowCatModal(true)}>
-                <Text style={{ fontSize: 18 }}>{selectedCat?.icon ?? '🏷️'}</Text>
-                <Text style={{ flex: 1, color: selectedCat ? '#111827' : '#9ca3af', marginLeft: 8 }}>
-                  {selectedCat?.name ?? 'Chọn danh mục'}
-                </Text>
-                <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
-              </TouchableOpacity>
-
-              {/* Frequency */}
-              <Text style={styles.label}>Tần suất</Text>
-              <View style={styles.freqRow}>
-                {(['daily', 'weekly', 'monthly'] as const).map((f) => (
-                  <TouchableOpacity
-                    key={f}
-                    style={[styles.freqBtn, frequency === f && styles.freqBtnActive]}
-                    onPress={() => setFrequency(f)}
-                  >
-                    <Text style={[styles.freqTxt, frequency === f && styles.freqTxtActive]}>
-                      {FREQ_LABELS[f]}
-                    </Text>
+            {showCatModal ? (
+              /* ── Inline category picker ── */
+              <>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
+                  <TouchableOpacity onPress={() => setShowCatModal(false)} style={{ marginRight: 12 }}>
+                    <Ionicons name="arrow-back" size={20} color="#111827" />
                   </TouchableOpacity>
-                ))}
-              </View>
+                  <Text style={styles.modalTitle}>Chọn danh mục</Text>
+                </View>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'center', paddingBottom: 20 }}>
+                    {categories.length === 0 ? (
+                      <Text style={{ color: '#9ca3af', marginTop: 20 }}>Đang tải danh mục...</Text>
+                    ) : (
+                      categories.map((c) => (
+                        <TouchableOpacity
+                          key={c.id}
+                          style={[styles.catItem, selectedCat?.id === c.id && { borderColor: c.color, backgroundColor: c.color + '20' }]}
+                          onPress={() => { setSelectedCat(c); setShowCatModal(false); }}
+                        >
+                          <Text style={{ fontSize: 26 }}>{c.icon}</Text>
+                          <Text style={{ fontSize: 11, marginTop: 4, color: '#374151', textAlign: 'center' }} numberOfLines={1}>{c.name}</Text>
+                        </TouchableOpacity>
+                      ))
+                    )}
+                  </View>
+                </ScrollView>
+              </>
+            ) : (
+              /* ── Add form ── */
+              <>
+                <Text style={styles.modalTitle}>Thêm định kỳ</Text>
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="always">
 
-              {frequency === 'monthly' && (
-                <>
-                  <Text style={styles.label}>Ngày trong tháng (1-28)</Text>
                   <TextInput
                     style={styles.input}
+                    placeholder="Số tiền"
                     keyboardType="numeric"
-                    value={dayOfMonth}
-                    onChangeText={setDayOfMonth}
-                    maxLength={2}
+                    value={amount}
+                    onChangeText={(v) => setAmount(formatAmount(v))}
                     placeholderTextColor="#9ca3af"
                   />
-                </>
-              )}
 
-              {frequency === 'weekly' && (
-                <>
-                  <Text style={styles.label}>Ngày trong tuần</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Ghi chú (tùy chọn)"
+                    value={note}
+                    onChangeText={setNote}
+                    autoCorrect={false}
+                    placeholderTextColor="#9ca3af"
+                  />
+
+                  {/* Category — inline toggle */}
+                  <TouchableOpacity style={styles.catPicker} onPress={() => setShowCatModal(true)}>
+                    <Text style={{ fontSize: 18 }}>{selectedCat?.icon ?? '🏷️'}</Text>
+                    <Text style={{ flex: 1, color: selectedCat ? '#111827' : '#9ca3af', marginLeft: 8 }}>
+                      {selectedCat?.name ?? 'Chọn danh mục'}
+                    </Text>
+                    <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+                  </TouchableOpacity>
+
+                  {/* Frequency */}
+                  <Text style={styles.label}>Tần suất</Text>
                   <View style={styles.freqRow}>
-                    {WEEKDAYS.map((d, i) => (
+                    {(['daily', 'weekly', 'monthly'] as const).map((f) => (
                       <TouchableOpacity
-                        key={i}
-                        style={[styles.dayBtn, dayOfWeek === i && styles.freqBtnActive]}
-                        onPress={() => setDayOfWeek(i)}
+                        key={f}
+                        style={[styles.freqBtn, frequency === f && styles.freqBtnActive]}
+                        onPress={() => setFrequency(f)}
                       >
-                        <Text style={[styles.freqTxt, dayOfWeek === i && styles.freqTxtActive]}>{d}</Text>
+                        <Text style={[styles.freqTxt, frequency === f && styles.freqTxtActive]}>
+                          {FREQ_LABELS[f]}
+                        </Text>
                       </TouchableOpacity>
                     ))}
                   </View>
-                </>
-              )}
 
-              <TouchableOpacity
-                style={[styles.saveBtn, saving && { opacity: 0.6 }]}
-                onPress={handleSave}
-                disabled={saving}
-              >
-                {saving ? <ActivityIndicator color="#fff" /> : <Text style={styles.saveBtnTxt}>Lưu</Text>}
-              </TouchableOpacity>
+                  {frequency === 'monthly' && (
+                    <>
+                      <Text style={styles.label}>Ngày trong tháng (1-28)</Text>
+                      <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={dayOfMonth}
+                        onChangeText={setDayOfMonth}
+                        maxLength={2}
+                        placeholderTextColor="#9ca3af"
+                      />
+                    </>
+                  )}
 
-              <TouchableOpacity style={styles.cancelBtn} onPress={() => setShowAdd(false)}>
-                <Text style={styles.cancelBtnTxt}>Hủy</Text>
-              </TouchableOpacity>
-            </ScrollView>
-          </View>
-        </View>
-      </Modal>
+                  {frequency === 'weekly' && (
+                    <>
+                      <Text style={styles.label}>Ngày trong tuần</Text>
+                      <View style={styles.freqRow}>
+                        {WEEKDAYS.map((d, i) => (
+                          <TouchableOpacity
+                            key={i}
+                            style={[styles.dayBtn, dayOfWeek === i && styles.freqBtnActive]}
+                            onPress={() => setDayOfWeek(i)}
+                          >
+                            <Text style={[styles.freqTxt, dayOfWeek === i && styles.freqTxtActive]}>{d}</Text>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                    </>
+                  )}
 
-      {/* Cat modal */}
-      <Modal visible={showCatModal} animationType="slide" transparent>
-        <View style={styles.overlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>Chọn danh mục</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-              {categories.map((c) => (
-                <TouchableOpacity
-                  key={c.id}
-                  style={[styles.catItem, selectedCat?.id === c.id && { borderColor: c.color }]}
-                  onPress={() => { setSelectedCat(c); setShowCatModal(false); }}
-                >
-                  <Text style={{ fontSize: 26 }}>{c.icon}</Text>
-                  <Text style={{ fontSize: 11, marginTop: 4, color: '#374151' }} numberOfLines={1}>{c.name}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-            <TouchableOpacity style={styles.cancelBtn} onPress={() => setShowCatModal(false)}>
-              <Text style={styles.cancelBtnTxt}>Đóng</Text>
-            </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.saveBtn, saving && { opacity: 0.6 }]}
+                    onPress={handleSave}
+                    disabled={saving}
+                  >
+                    {saving ? <ActivityIndicator color="#fff" /> : <Text style={styles.saveBtnTxt}>Lưu</Text>}
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.cancelBtn} onPress={() => setShowAdd(false)}>
+                    <Text style={styles.cancelBtnTxt}>Hủy</Text>
+                  </TouchableOpacity>
+                </ScrollView>
+              </>
+            )}
           </View>
         </View>
       </Modal>
