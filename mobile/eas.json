@@ -3,6 +3,12 @@
     "version": ">= 5.0.0"
   },
   "build": {
+    "simulator": {
+      "ios": { "simulator": true },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://spendwise-api-7e0n.onrender.com"
+      }
+    },
     "development": {
       "developmentClient": true,
       "distribution": "internal",
