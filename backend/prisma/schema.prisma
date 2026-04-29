@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Household {
+  id                String             @id @default(cuid())
+  name              String
+  inviteCode        String             @unique
+  users             User[]
+  expenses          Expense[]
+  recurringExpenses RecurringExpense[]
+  createdAt         DateTime           @default(now())
+}
+
+model User {
+  id                String             @id @default(cuid())
+  username          String             @unique
+  email             String?            @unique
+  displayName       String
+  passwordHash      String
+  googleId          String?            @unique
+  householdId       String?
+  household         Household?         @relation(fields: [householdId], references: [id])
+  expenses          Expense[]
+  recurringExpenses RecurringExpense[]
+  createdAt         DateTime           @default(now())
+}
+
+model Category {
+  id                String             @id @default(cuid())
+  name              String             @unique
+  icon              String             @default("💰")
+  color             String             @default("#22c55e")
+  expenses          Expense[]
+  recurringExpenses RecurringExpense[]
+}
+
+model Expense {
+  id          String     @id @default(cuid())
+  amount      Float
+  note        String?
+  imageUrl    String?
+  images      String     @default("[]")
+  categoryId  String?
+  userId      String
+  householdId String?
+  category    Category?  @relation(fields: [categoryId], references: [id])
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  household   Household? @relation(fields: [householdId], references: [id])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model RecurringExpense {
+  id          String     @id @default(cuid())
+  amount      Float
+  note        String?
+  categoryId  String?
+  userId      String
+  householdId String?
+  frequency   String
+  dayOfMonth  Int?
+  dayOfWeek   Int?
+  nextDate    DateTime
+  active      Boolean    @default(true)
+  lastRunAt   DateTime?
+  category    Category?  @relation(fields: [categoryId], references: [id])
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  household   Household? @relation(fields: [householdId], references: [id])
+  createdAt   DateTime   @default(now())
+}
