@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Thị Niễu",
-    "slug": "thi-nieu",
+    "slug": "spendwise",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
@@ -11,13 +11,19 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.lieu.ancuc"
+      "bundleIdentifier": "com.lieu.ancuc",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#16a34a"
       },
-      "package": "com.lieu.ancuc"
+      "package": "com.lieu.ancuc",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro"
@@ -36,26 +42,31 @@
       [
         "expo-quick-actions",
         {
-          "androidIcons": {},
-          "items": [
+          "iosActions": [
             {
               "id": "add_expense",
               "title": "Thêm chi tiêu",
               "subtitle": "Ghi lại khoản chi mới",
-              "icon": "add_circle",
+              "icon": "compose",
               "params": { "href": "/add-expense" }
             },
             {
               "id": "view_expenses",
               "title": "Xem chi tiêu",
               "subtitle": "Danh sách chi tiêu",
-              "icon": "list",
+              "icon": "search",
               "params": { "href": "/(tabs)/expenses" }
             }
           ]
         }
       ]
     ],
+    "extra": {
+      "eas": {
+        "projectId": "5b52eea4-8dae-4084-a31c-1c94068a3757"
+      }
+    },
+    "owner": "cien02s-organization",
     "experiments": {
       "typedRoutes": true
     }
