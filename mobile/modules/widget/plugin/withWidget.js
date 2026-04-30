@@ -206,6 +206,10 @@ function getEntitlements() {
 
 // ─── Export ───────────────────────────────────────────────────────────────────
 module.exports = function withThiNieuWidget(config) {
+  // Skip entirely on Android - iOS-only plugin
+  if (config.platform !== 'ios') {
+    return config;
+  }
   config = withAppGroup(config);
   config = withUserDefaultsBridge(config);
   config = withWidgetTarget(config);
