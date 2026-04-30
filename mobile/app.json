@@ -58,20 +58,6 @@
               "icon": "search",
               "params": { "href": "/(tabs)/expenses" }
             }
-          ],
-          "androidActions": [
-            {
-              "id": "add_expense",
-              "title": "Thêm chi tiêu",
-              "icon": "@drawable/ic_add",
-              "intent": "lieu-an-cuc://add-expense"
-            },
-            {
-              "id": "view_expenses",
-              "title": "Xem chi tiêu",
-              "icon": "@drawable/ic_list",
-              "intent": "lieu-an-cuc://expenses"
-            }
           ]
         }
       ]
