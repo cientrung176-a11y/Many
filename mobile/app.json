@@ -40,28 +40,7 @@
       ],
       "expo-font",
       "expo-asset",
-      "./modules/widget/plugin/withWidget",
-      [
-        "expo-quick-actions",
-        {
-          "iosActions": [
-            {
-              "id": "add_expense",
-              "title": "Thêm chi tiêu",
-              "subtitle": "Ghi lại khoản chi mới",
-              "icon": "compose",
-              "params": { "href": "/add-expense" }
-            },
-            {
-              "id": "view_expenses",
-              "title": "Xem chi tiêu",
-              "subtitle": "Danh sách chi tiêu",
-              "icon": "search",
-              "params": { "href": "/(tabs)/expenses" }
-            }
-          ]
-        }
-      ]
+      "./modules/widget/plugin/withWidget"
     ],
     "extra": {
       "eas": {
