@@ -4,10 +4,10 @@ import {
 } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { BarChart, PieChart } from 'react-native-chart-kit';
+// import { BarChart, PieChart } from 'react-native-chart-kit';
 import api from '../../lib/api';
 
-const W = Dimensions.get('window').width;
+// const W = Dimensions.get('window').width;
 
 type CatStat = { name: string; icon: string; color: string; total: number; count: number };
 type Stats = { total: number; count: number; byCategory: CatStat[]; byDay: Record<string, number>; byUser: Record<string, number> };
@@ -21,16 +21,16 @@ function fmtShort(n: number) {
   return String(n);
 }
 
-const CHART_CFG = {
-  backgroundColor: '#fff',
-  backgroundGradientFrom: '#fff',
-  backgroundGradientTo: '#fff',
-  decimalPlaces: 0,
-  color: () => '#16a34a',
-  labelColor: () => '#9ca3af',
-  propsForLabels: { fontSize: 10 },
-  barPercentage: 0.6,
-};
+// const CHART_CFG = {
+//   backgroundColor: '#fff',
+//   backgroundGradientFrom: '#fff',
+//   backgroundGradientTo: '#fff',
+//   decimalPlaces: 0,
+//   color: () => '#16a34a',
+//   labelColor: () => '#9ca3af',
+//   propsForLabels: { fontSize: 10 },
+//   barPercentage: 0.6,
+// };
 
 const INSIGHT_COLORS: Record<string, string> = {
   warning: '#fef3c7', positive: '#f0fdf4', info: '#eff6ff',
@@ -174,17 +174,9 @@ export default function StatsScreen() {
         {dayKeys.length > 0 && (
           <View style={styles.card}>
             <Text style={styles.cardTitle}>📅 Chi tiêu theo ngày</Text>
-            <BarChart
-              data={barData}
-              width={W - 64}
-              height={180}
-              yAxisLabel=""
-              yAxisSuffix=""
-              chartConfig={CHART_CFG}
-              style={{ borderRadius: 12, marginTop: 8 }}
-              showValuesOnTopOfBars={false}
-              fromZero
-            />
+            <View style={{ height: 180, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f3f4f6', borderRadius: 12, marginTop: 8 }}>
+              <Text style={{ color: '#9ca3af' }}>Biểu đồ tạm ẩn (test build)</Text>
+            </View>
           </View>
         )}
 
@@ -192,16 +184,9 @@ export default function StatsScreen() {
         {pieData.length > 0 && (
           <View style={styles.card}>
             <Text style={styles.cardTitle}>🏷️ Theo danh mục</Text>
-            <PieChart
-              data={pieData}
-              width={W - 64}
-              height={200}
-              chartConfig={CHART_CFG}
-              accessor="amount"
-              backgroundColor="transparent"
-              paddingLeft="8"
-              style={{ marginTop: 4 }}
-            />
+            <View style={{ height: 200, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f3f4f6', borderRadius: 12, marginTop: 4 }}>
+              <Text style={{ color: '#9ca3af' }}>Biểu đồ tạm ẩn (test build)</Text>
+            </View>
           </View>
         )}
 
